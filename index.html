@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProFuel | Performance Nutrition for Cyclists</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .meal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .macro-bar {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .carbs-bar {
+            background-color: #3b82f6;
+            width: 60%;
+        }
+        
+        .protein-bar {
+            background-color: #10b981;
+            width: 20%;
+        }
+        
+        .fat-bar {
+            background-color: #f59e0b;
+            width: 20%;
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        .pro-tip {
+            border-left: 4px solid #3b82f6;
+        }
+        
+        @media (max-width: 768px) {
+            .meal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-bicycle text-blue-500 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900">ProFuel</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#calculator" class="text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 border-blue-500 text-sm font-medium">Meal Generator</a>
+                    <a href="#meals" class="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300 text-sm font-medium">Sample Meals</a>
+                    <a href="#tips" class="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300 text-sm font-medium">Pro Tips</a>
+                    <a href="#about" class="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300 text-sm font-medium">About</a>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg text-white">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                    Fuel Like a Pro Cyclist
+                </h1>
+                <p class="mt-6 max-w-lg mx-auto text-xl">
+                    WorldTour-approved meal plans tailored to your training load, intensity, and dietary needs.
+                </p>
+                <div class="mt-10">
+                    <a href="#calculator" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-blue-600 bg-white hover:bg-gray-50">
+                        Generate Your Meal Plan
+                        <i class="fas fa-arrow-down ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calculator Section -->
+    <div id="calculator" class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-extrabold text-gray-900 text-center">Personalized Meal Generator</h2>
+            <p class="mt-4 text-lg text-gray-500 text-center">
+                Input your ride details and dietary preferences to get a pro-level nutrition plan.
+            </p>
+            
+            <div class="mt-12 bg-gray-50 p-6 rounded-lg shadow-sm">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <!-- Ride Distance -->
+                    <div>
+                        <label for="distance" class="block text-sm font-medium text-gray-700">Daily Ride Distance</label>
+                        <select id="distance" name="distance" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option value="short">Short (<50km)</option>
+                            <option value="medium" selected>Medium (50-100km)</option>
+                            <option value="long">Long (100km+)</option>
+                            <option value="race">Race Day</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Ride Intensity -->
+                    <div>
+                        <label for="intensity" class="block text-sm font-medium text-gray-700">Ride Intensity</label>
+                        <select id="intensity" name="intensity" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option value="recovery">Recovery</option>
+                            <option value="endurance" selected>Endurance</option>
+                            <option value="high">High-Intensity</option>
+                            <option value="race">Race Effort</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Dietary Preferences -->
+                    <div>
+                        <label for="diet" class="block text-sm font-medium text-gray-700">Dietary Preferences</label>
+                        <select id="diet" name="diet" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                            <option value="standard" selected>Standard</option>
+                            <option value="keto">Keto-Adapted</option>
+                            <option value="plant">Plant-Based</option>
+                            <option value="gluten">Gluten-Free</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Weight -->
+                    <div>
+                        <label for="weight" class="block text-sm font-medium text-gray-700">Your Weight (kg)</label>
+                        <input type="number" id="weight" name="weight" value="70" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <button onclick="generateMealPlan()" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Generate Meal Plan
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Section -->
+            <div id="results" class="mt-12 hidden">
+                <h3 class="text-xl font-bold text-gray-900">Your Custom Meal Plan</h3>
+                <p class="text-gray-500 mt-2">Based on your input, here's your optimal fueling strategy:</p>
+                
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                    <!-- Breakfast -->
+                    <div id="breakfast-card" class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                        <div class="px-4 py-5 sm:p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                                    <i class="fas fa-egg text-blue-600 text-xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Breakfast</h4>
+                                    <p id="breakfast-time" class="text-sm text-gray-500">Pre-Ride: 2-3 hours before</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <p id="breakfast-meal" class="text-gray-700">Oatmeal + almond butter + chia seeds + 2 eggs</p>
+                                <div class="mt-4">
+                                    <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                    <div class="mt-2 flex space-x-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500">Carbs</p>
+                                            <p id="breakfast-carbs" class="font-medium">60g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Protein</p>
+                                            <p id="breakfast-protein" class="font-medium">20g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Fats</p>
+                                            <p id="breakfast-fats" class="font-medium">15g</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 flex space-x-1">
+                                        <div class="carbs-bar macro-bar"></div>
+                                        <div class="protein-bar macro-bar"></div>
+                                        <div class="fat-bar macro-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lunch -->
+                    <div id="lunch-card" class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                        <div class="px-4 py-5 sm:p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                                    <i class="fas fa-drumstick-bite text-green-600 text-xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Lunch</h4>
+                                    <p id="lunch-time" class="text-sm text-gray-500">Post-Ride: Within 30 min</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <p id="lunch-meal" class="text-gray-700">Quinoa + grilled chicken + sweet potato + greens</p>
+                                <div class="mt-4">
+                                    <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                    <div class="mt-2 flex space-x-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500">Carbs</p>
+                                            <p id="lunch-carbs" class="font-medium">50g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Protein</p>
+                                            <p id="lunch-protein" class="font-medium">40g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Fats</p>
+                                            <p id="lunch-fats" class="font-medium">10g</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 flex space-x-1">
+                                        <div class="carbs-bar macro-bar" style="width: 50%"></div>
+                                        <div class="protein-bar macro-bar" style="width: 40%"></div>
+                                        <div class="fat-bar macro-bar" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dinner -->
+                    <div id="dinner-card" class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                        <div class="px-4 py-5 sm:p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                                    <i class="fas fa-fish text-yellow-600 text-xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Dinner</h4>
+                                    <p id="dinner-time" class="text-sm text-gray-500">Evening: Recovery focus</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <p id="dinner-meal" class="text-gray-700">Salmon + wild rice + roasted veggies</p>
+                                <div class="mt-4">
+                                    <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                    <div class="mt-2 flex space-x-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500">Carbs</p>
+                                            <p id="dinner-carbs" class="font-medium">40g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Protein</p>
+                                            <p id="dinner-protein" class="font-medium">30g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Fats</p>
+                                            <p id="dinner-fats" class="font-medium">20g</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 flex space-x-1">
+                                        <div class="carbs-bar macro-bar" style="width: 45%"></div>
+                                        <div class="protein-bar macro-bar" style="width: 33%"></div>
+                                        <div class="fat-bar macro-bar" style="width: 22%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Intra and Post Ride -->
+                <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <!-- Intra Ride -->
+                    <div id="intra-card" class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                        <div class="px-4 py-5 sm:p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                                    <i class="fas fa-bolt text-purple-600 text-xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Intra-Ride Fuel</h4>
+                                    <p id="intra-time" class="text-sm text-gray-500">During ride: Every 45-60 min</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <p id="intra-meal" class="text-gray-700">Homemade rice cakes + energy gels + electrolyte mix</p>
+                                <div class="mt-4">
+                                    <h5 class="text-sm font-medium text-gray-500">Macros (per hour)</h5>
+                                    <div class="mt-2 flex space-x-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500">Carbs</p>
+                                            <p id="intra-carbs" class="font-medium">60g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Protein</p>
+                                            <p id="intra-protein" class="font-medium">5g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Fats</p>
+                                            <p id="intra-fats" class="font-medium">2g</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 flex space-x-1">
+                                        <div class="carbs-bar macro-bar" style="width: 90%"></div>
+                                        <div class="protein-bar macro-bar" style="width: 7%"></div>
+                                        <div class="fat-bar macro-bar" style="width: 3%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Post Ride -->
+                    <div id="post-card" class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                        <div class="px-4 py-5 sm:p-6">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-red-100 rounded-md p-3">
+                                    <i class="fas fa-heartbeat text-red-600 text-xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Post-Ride Recovery</h4>
+                                    <p id="post-time" class="text-sm text-gray-500">Immediately after ride</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <p id="post-meal" class="text-gray-700">Whey protein + banana + tart cherry juice</p>
+                                <div class="mt-4">
+                                    <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                    <div class="mt-2 flex space-x-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500">Carbs</p>
+                                            <p id="post-carbs" class="font-medium">40g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Protein</p>
+                                            <p id="post-protein" class="font-medium">30g</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500">Fats</p>
+                                            <p id="post-fats" class="font-medium">5g</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 flex space-x-1">
+                                        <div class="carbs-bar macro-bar" style="width: 53%"></div>
+                                        <div class="protein-bar macro-bar" style="width: 40%"></div>
+                                        <div class="fat-bar macro-bar" style="width: 7%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Daily Totals -->
+                <div class="mt-8 bg-blue-50 rounded-lg p-6">
+                    <h4 class="text-lg font-medium text-blue-800">Daily Nutrition Totals</h4>
+                    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="text-sm font-medium text-gray-500">Total Calories</p>
+                            <p id="total-calories" class="text-2xl font-bold text-blue-600">2,850 kcal</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="text-sm font-medium text-gray-500">Carbohydrates</p>
+                            <p id="total-carbs" class="text-2xl font-bold text-blue-600">350g</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="text-sm font-medium text-gray-500">Protein</p>
+                            <p id="total-protein" class="text-2xl font-bold text-blue-600">125g</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm text-blue-700"><span class="font-medium">Pro Tip:</span> For endurance rides over 3 hours, aim for 60-90g carbs per hour from multiple sources (glucose + fructose).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sample Meals Section -->
+    <div id="meals" class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-extrabold text-gray-900 text-center">Pro Cyclist-Approved Meals</h2>
+            <p class="mt-4 text-lg text-gray-500 text-center">
+                These are the exact foods WorldTour riders use to fuel performance and recovery.
+            </p>
+            
+            <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Meal 1 -->
+                <div class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                                <i class="fas fa-sun text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">Breakfast: Power Porridge</h4>
+                                <p class="text-sm text-gray-500">For endurance rides (50-100km)</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">Oats cooked in almond milk with banana, chia seeds, almond butter, and whey protein. Served with 2 boiled eggs.</p>
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                <div class="mt-2 flex space-x-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Carbs</p>
+                                        <p class="font-medium">75g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Protein</p>
+                                        <p class="font-medium">30g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Fats</p>
+                                        <p class="font-medium">20g</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex space-x-1">
+                                    <div class="carbs-bar macro-bar" style="width: 60%"></div>
+                                    <div class="protein-bar macro-bar" style="width: 24%"></div>
+                                    <div class="fat-bar macro-bar" style="width: 16%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meal 2 -->
+                <div class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                                <i class="fas fa-utensils text-green-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">Lunch: Recovery Bowl</h4>
+                                <p class="text-sm text-gray-500">Post high-intensity training</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">Quinoa, grilled chicken breast, roasted sweet potato, avocado, spinach, and tahini dressing.</p>
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                <div class="mt-2 flex space-x-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Carbs</p>
+                                        <p class="font-medium">60g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Protein</p>
+                                        <p class="font-medium">45g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Fats</p>
+                                        <p class="font-medium">25g</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex space-x-1">
+                                    <div class="carbs-bar macro-bar" style="width: 46%"></div>
+                                    <div class="protein-bar macro-bar" style="width: 35%"></div>
+                                    <div class="fat-bar macro-bar" style="width: 19%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meal 3 -->
+                <div class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                                <i class="fas fa-moon text-yellow-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">Dinner: Omega-3 Recovery</h4>
+                                <p class="text-sm text-gray-500">After long endurance rides</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">Wild salmon, jasmine rice, roasted Brussels sprouts with olive oil, and fermented vegetables.</p>
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                <div class="mt-2 flex space-x-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Carbs</p>
+                                        <p class="font-medium">50g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Protein</p>
+                                        <p class="font-medium">35g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Fats</p>
+                                        <p class="font-medium">30g</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex space-x-1">
+                                    <div class="carbs-bar macro-bar" style="width: 43%"></div>
+                                    <div class="protein-bar macro-bar" style="width: 30%"></div>
+                                    <div class="fat-bar macro-bar" style="width: 26%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meal 4 -->
+                <div class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                                <i class="fas fa-bolt text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">Intra-Ride: Pro Mix</h4>
+                                <p class="text-sm text-gray-500">During rides over 2 hours</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">Homemade rice cakes (white rice, coconut oil, honey, salt), energy gels (maltodextrin + fructose), and electrolyte tablets in water.</p>
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-500">Macros (per hour)</h5>
+                                <div class="mt-2 flex space-x-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Carbs</p>
+                                        <p class="font-medium">90g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Protein</p>
+                                        <p class="font-medium">5g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Fats</p>
+                                        <p class="font-medium">3g</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex space-x-1">
+                                    <div class="carbs-bar macro-bar" style="width: 92%"></div>
+                                    <div class="protein-bar macro-bar" style="width: 5%"></div>
+                                    <div class="fat-bar macro-bar" style="width: 3%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meal 5 -->
+                <div class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-red-100 rounded-md p-3">
+                                <i class="fas fa-heartbeat text-red-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">Post-Ride: Recovery Shake</h4>
+                                <p class="text-sm text-gray-500">Within 30 minutes after ride</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">Whey protein isolate, banana, tart cherry juice, creatine monohydrate, and ice blended smooth.</p>
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                <div class="mt-2 flex space-x-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Carbs</p>
+                                        <p class="font-medium">50g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Protein</p>
+                                        <p class="font-medium">30g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Fats</p>
+                                        <p class="font-medium">2g</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex space-x-1">
+                                    <div class="carbs-bar macro-bar" style="width: 61%"></div>
+                                    <div class="protein-bar macro-bar" style="width: 37%"></div>
+                                    <div class="fat-bar macro-bar" style="width: 2%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meal 6 -->
+                <div class="bg-white overflow-hidden shadow rounded-lg transition-all meal-card">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-pink-100 rounded-md p-3">
+                                <i class="fas fa-leaf text-pink-600 text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <h4 class="text-lg font-medium text-gray-900">Plant-Based Option</h4>
+                                <p class="text-sm text-gray-500">For vegan cyclists</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-gray-700">Tofu scramble with quinoa, sweet potato, kale, and flaxseed oil. Beetroot juice shot pre-ride.</p>
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-500">Macros</h5>
+                                <div class="mt-2 flex space-x-4">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Carbs</p>
+                                        <p class="font-medium">55g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Protein</p>
+                                        <p class="font-medium">35g</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Fats</p>
+                                        <p class="font-medium">20g</p>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex space-x-1">
+                                    <div class="carbs-bar macro-bar" style="width: 50%"></div>
+                                    <div class="protein-bar macro-bar" style="width: 32%"></div>
+                                    <div class="fat-bar macro-bar" style="width: 18%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pro Tips Section -->
+    <div id="tips" class="bg-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-extrabold text-gray-900 text-center">Pro Nutrition Tips</h2>
+            <p class="mt-4 text-lg text-gray-500 text-center">
+                Evidence-based strategies from WorldTour team nutritionists.
+            </p>
+            
+            <div class="mt-12 space-y-8">
+                <!-- Tip 1 -->
+                <div class="pro-tip pl-4">
+                    <h4 class="text-xl font-bold text-gray-900">The 90g Carb/Hour Standard</h4>
+                    <p class="mt-2 text-gray-600">Top pros now consume 90g of carbs per hour during races (60g glucose + 30g fructose) to maximize absorption. This requires training your gut with progressively increasing carb intake during long rides.</p>
+                </div>
+                
+                <!-- Tip 2 -->
+                <div class="pro-tip pl-4">
+                    <h4 class="text-xl font-bold text-gray-900">The 30-Minute Recovery Window</h4>
+                    <p class="mt-2 text-gray-600">Consume 1-1.2g carbs/kg and 0.3-0.4g protein/kg within 30 minutes post-ride to maximize glycogen resynthesis and muscle repair. Liquid forms are absorbed fastest.</p>
+                </div>
+                
+                <!-- Tip 3 -->
+                <div class="pro-tip pl-4">
+                    <h4 class="text-xl font-bold text-gray-900">Pre-Ride Carb Loading</h4>
+                    <p class="mt-2 text-gray-600">For rides over 90 minutes, consume 3g carbs/kg body weight 3 hours before. Choose low-fiber options like white rice or oatmeal to avoid GI distress.</p>
+                </div>
+                
+                <!-- Tip 4 -->
+                <div class="pro-tip pl-4">
+                    <h4 class="text-xl font-bold text-gray-900">Hydration Strategy</h4>
+                    <p class="mt-2 text-gray-600">Weigh yourself before and after rides. For every kg lost, drink 1.5L of fluid with electrolytes. Add 400-800mg sodium per liter in hot conditions.</p>
+                </div>
+                
+                <!-- Tip 5 -->
+                <div class="pro-tip pl-4">
+                    <h4 class="text-xl font-bold text-gray-900">Anti-Inflammatory Foods</h4>
+                    <p class="mt-2 text-gray-600">After hard efforts, include foods high in omega-3s (salmon, walnuts), antioxidants (berries, tart cherry), and polyphenols (dark chocolate, green tea) to reduce inflammation.</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-blue-50 rounded-lg p-6">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-lightbulb text-blue-500 text-2xl"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-lg font-medium text-blue-800">Want Personalized Advice?</h3>
+                        <p class="mt-2 text-blue-700">Our team includes certified sports nutritionists who work with WorldTour teams. <a href="#" class="font-medium underline">Book a consultation</a> to optimize your fueling strategy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="lg:grid lg:grid-cols-3 lg:gap-8">
+                <div class="col-span-2">
+                    <h2 class="text-3xl font-extrabold">About ProFuel Nutrition</h2>
+                    <p class="mt-4 text-lg text-gray-300">
+                        Founded by former pro cyclists and sports nutritionists, ProFuel brings WorldTour-level nutrition strategies to amateur and competitive cyclists. Our meal plans are based on the exact protocols used by top teams in the Tour de France.
+                    </p>
+                    <div class="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2">
+                        <div>
+                            <h4 class="text-lg font-bold">Our Approach</h4>
+                            <p class="mt-2 text-gray-300">
+                                We combine cutting-edge sports science with practical, pro-approved foods that actually taste good and are easy to prepare.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold">The Team</h4>
+                            <p class="mt-2 text-gray-300">
+                                Our nutritionists have worked with EF Education-EasyPost, Team DSM, and other WorldTour squads.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0">
+                    <h3 class="text-lg font-bold">Get Our Free Guide</h3>
+                    <p class="mt-2 text-gray-300">"5 Nutrition Mistakes That Slow Every Cyclist"</p>
+                    <form class="mt-6">
+                        <div>
+                            <label for="email" class="sr-only">Email</label>
+                            <input id="email" name="email" type="email" required class="w-full px-4 py-3 rounded-md text-gray-900" placeholder="Your email address">
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Download Free Guide
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold tracking-wider uppercase">Products</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Meal Plans</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Custom Coaching</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Pro Recipes</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Supplement Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold tracking-wider uppercase">Resources</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Research</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Case Studies</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold tracking-wider uppercase">Company</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Team</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Partners</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold tracking-wider uppercase">Connect</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li class="flex">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fab fa-instagram mr-2"></i> Instagram
+                            </a>
+                        </li>
+                        <li class="flex">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fab fa-twitter mr-2"></i> Twitter
+                            </a>
+                        </li>
+                        <li class="flex">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fab fa-strava mr-2"></i> Strava
+                            </a>
+                        </li>
+                        <li class="flex">
+                            <a href="#" class="text-gray-300 hover:text-white">
+                                <i class="fas fa-envelope mr-2"></i> Email
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 flex flex-col items-center">
+                <p class="text-gray-400 text-sm">&copy; 2023 ProFuel Nutrition. All rights reserved.</p>
+                <div class="mt-4 flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-strava text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Meal plan database
+        const mealPlans = {
+            standard: {
+                short: {
+                    recovery: {
+                        breakfast: {
+                            meal: "Greek yogurt + granola + berries + flaxseeds",
+                            carbs: 40,
+                            protein: 25,
+                            fats: 15,
+                            time: "Morning: Recovery focus"
+                        },
+                        lunch: {
+                            meal: "Whole grain wrap with turkey, avocado, and veggies",
+                            carbs: 45,
+                            protein: 35,
+                            fats: 20,
+                            time: "Midday: Moderate protein"
+                        },
+                        dinner: {
+                            meal: "Grass-fed beef + quinoa + roasted vegetables",
+                            carbs: 30,
+                            protein: 40,
+                            fats: 25,
+                            time: "Evening: Protein focus"
+                        },
+                        intra: {
+                            meal: "Optional: Electrolyte drink only",
+                            carbs: 0,
+                            protein: 0,
+                            fats: 0,
+                            time: "During ride: Hydration only"
+                        },
+                        post: {
+                            meal: "Optional: Light snack if hungry",
+                            carbs: 20,
+                            protein: 10,
+                            fats: 5,
+                            time: "Post-ride: Only if needed"
+                        }
+                    },
+                    endurance: {
+                        breakfast: {
+                            meal: "Oatmeal + almond butter + chia seeds + 2 eggs",
+                            carbs: 60,
+                            protein: 20,
+                            fats: 15,
+                            time: "Pre-Ride: 2-3 hours before"
+                        },
+                        lunch: {
+                            meal: "Quinoa + grilled chicken + sweet potato + greens",
+                            carbs: 50,
+                            protein: 40,
+                            fats: 10,
+                            time: "Post-Ride: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Salmon + wild rice + roasted veggies",
+                            carbs: 40,
+                            protein: 30,
+                            fats: 20,
+                            time: "Evening: Recovery focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + electrolyte drink",
+                            carbs: 30,
+                            protein: 0,
+                            fats: 0,
+                            time: "During ride: Every 45 min"
+                        },
+                        post: {
+                            meal: "Whey protein + banana + tart cherry juice",
+                            carbs: 40,
+                            protein: 30,
+                            fats: 5,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    high: {
+                        breakfast: {
+                            meal: "Sweet potato hash + eggs + spinach + avocado",
+                            carbs: 50,
+                            protein: 25,
+                            fats: 20,
+                            time: "Pre-Ride: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Brown rice + lean beef + stir-fried vegetables",
+                            carbs: 60,
+                            protein: 45,
+                            fats: 15,
+                            time: "Post-Ride: Within 20 min"
+                        },
+                        dinner: {
+                            meal: "Turkey meatballs + whole wheat pasta + pesto",
+                            carbs: 55,
+                            protein: 35,
+                            fats: 15,
+                            time: "Evening: Recovery carbs"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink",
+                            carbs: 45,
+                            protein: 0,
+                            fats: 0,
+                            time: "During ride: Every 30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + rice cakes",
+                            carbs: 60,
+                            protein: 30,
+                            fats: 5,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    race: {
+                        breakfast: {
+                            meal: "White rice + scrambled eggs + banana + honey",
+                            carbs: 100,
+                            protein: 20,
+                            fats: 10,
+                            time: "Pre-Race: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Post-race recovery shake + rice cakes",
+                            carbs: 80,
+                            protein: 40,
+                            fats: 5,
+                            time: "Post-Race: Within 15 min"
+                        },
+                        dinner: {
+                            meal: "Salmon + mashed potatoes + steamed vegetables",
+                            carbs: 70,
+                            protein: 40,
+                            fats: 20,
+                            time: "Evening: Recovery focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 90,
+                            protein: 5,
+                            fats: 2,
+                            time: "During race: Every 20-30 min"
+                        },
+                        post: {
+                            meal: "Whey protein + maltodextrin + creatine",
+                            carbs: 50,
+                            protein: 30,
+                            fats: 2,
+                            time: "Immediately after race"
+                        }
+                    }
+                },
+                medium: {
+                    recovery: {
+                        breakfast: {
+                            meal: "Smoothie bowl (banana, berries, protein powder, granola)",
+                            carbs: 50,
+                            protein: 25,
+                            fats: 10,
+                            time: "Morning: Light recovery"
+                        },
+                        lunch: {
+                            meal: "Lentil salad with feta, quinoa, and olive oil dressing",
+                            carbs: 55,
+                            protein: 30,
+                            fats: 15,
+                            time: "Midday: Plant proteins"
+                        },
+                        dinner: {
+                            meal: "Baked chicken + roasted root vegetables + greens",
+                            carbs: 40,
+                            protein: 35,
+                            fats: 20,
+                            time: "Evening: Moderate recovery"
+                        },
+                        intra: {
+                            meal: "Electrolyte drink only",
+                            carbs: 0,
+                            protein: 0,
+                            fats: 0,
+                            time: "During ride: Hydration only"
+                        },
+                        post: {
+                            meal: "Greek yogurt + honey + walnuts",
+                            carbs: 25,
+                            protein: 20,
+                            fats: 10,
+                            time: "Post-ride: Light snack"
+                        }
+                    },
+                    endurance: {
+                        breakfast: {
+                            meal: "Buckwheat pancakes + maple syrup + scrambled eggs",
+                            carbs: 80,
+                            protein: 25,
+                            fats: 15,
+                            time: "Pre-Ride: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Rice noodles + shrimp + veggies + peanut sauce",
+                            carbs: 70,
+                            protein: 35,
+                            fats: 15,
+                            time: "Post-Ride: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Grilled cod + roasted potatoes + asparagus",
+                            carbs: 50,
+                            protein: 35,
+                            fats: 15,
+                            time: "Evening: Omega-3 focus"
+                        },
+                        intra: {
+                            meal: "Homemade rice cakes + electrolyte drink",
+                            carbs: 60,
+                            protein: 5,
+                            fats: 3,
+                            time: "During ride: Every 45 min"
+                        },
+                        post: {
+                            meal: "Chocolate milk + banana + almond butter",
+                            carbs: 50,
+                            protein: 20,
+                            fats: 10,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    high: {
+                        breakfast: {
+                            meal: "Oatmeal + whey protein + banana + walnuts",
+                            carbs: 80,
+                            protein: 30,
+                            fats: 15,
+                            time: "Pre-Ride: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Whole wheat pasta + turkey bolognese + parmesan",
+                            carbs: 80,
+                            protein: 45,
+                            fats: 15,
+                            time: "Post-Ride: Within 20 min"
+                        },
+                        dinner: {
+                            meal: "Grilled steak + sweet potato mash + broccoli",
+                            carbs: 50,
+                            protein: 45,
+                            fats: 20,
+                            time: "Evening: Iron focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 75,
+                            protein: 5,
+                            fats: 2,
+                            time: "During ride: Every 30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + toast with honey",
+                            carbs: 70,
+                            protein: 30,
+                            fats: 5,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    race: {
+                        breakfast: {
+                            meal: "White toast + jam + scrambled eggs + banana",
+                            carbs: 120,
+                            protein: 25,
+                            fats: 10,
+                            time: "Pre-Race: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Post-race recovery meal: Pasta + chicken + olive oil",
+                            carbs: 100,
+                            protein: 50,
+                            fats: 15,
+                            time: "Post-Race: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Salmon + jasmine rice + stir-fried veggies",
+                            carbs: 80,
+                            protein: 45,
+                            fats: 20,
+                            time: "Evening: Recovery focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 90,
+                            protein: 5,
+                            fats: 2,
+                            time: "During race: Every 20-30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + tart cherry juice + banana",
+                            carbs: 80,
+                            protein: 40,
+                            fats: 5,
+                            time: "Immediately after race"
+                        }
+                    }
+                },
+                long: {
+                    recovery: {
+                        breakfast: {
+                            meal: "Avocado toast + poached eggs + side of fruit",
+                            carbs: 50,
+                            protein: 20,
+                            fats: 20,
+                            time: "Morning: Healthy fats"
+                        },
+                        lunch: {
+                            meal: "Quinoa bowl with roasted veggies and tahini dressing",
+                            carbs: 60,
+                            protein: 25,
+                            fats: 20,
+                            time: "Midday: Plant-based"
+                        },
+                        dinner: {
+                            meal: "Baked salmon + wild rice + steamed greens",
+                            carbs: 45,
+                            protein: 35,
+                            fats: 25,
+                            time: "Evening: Omega-3 focus"
+                        },
+                        intra: {
+                            meal: "Optional: Electrolyte drink",
+                            carbs: 0,
+                            protein: 0,
+                            fats: 0,
+                            time: "During ride: Hydration only"
+                        },
+                        post: {
+                            meal: "Greek yogurt + berries + granola",
+                            carbs: 30,
+                            protein: 20,
+                            fats: 10,
+                            time: "Post-ride: Light snack"
+                        }
+                    },
+                    endurance: {
+                        breakfast: {
+                            meal: "Rice porridge + raisins + nuts + whey protein",
+                            carbs: 100,
+                            protein: 30,
+                            fats: 15,
+                            time: "Pre-Ride: 3-4 hours before"
+                        },
+                        lunch: {
+                            meal: "Rice + grilled chicken + roasted veggies + olive oil",
+                            carbs: 80,
+                            protein: 45,
+                            fats: 20,
+                            time: "Post-Ride: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Pasta with tuna, olives, and roasted tomatoes",
+                            carbs: 70,
+                            protein: 35,
+                            fats: 15,
+                            time: "Evening: Recovery carbs"
+                        },
+                        intra: {
+                            meal: "Rice cakes + energy gels + sports drink",
+                            carbs: 80,
+                            protein: 5,
+                            fats: 3,
+                            time: "During ride: Every 30-45 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + banana + honey",
+                            carbs: 70,
+                            protein: 35,
+                            fats: 5,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    high: {
+                        breakfast: {
+                            meal: "Oatmeal + whey protein + banana + almond butter",
+                            carbs: 100,
+                            protein: 35,
+                            fats: 20,
+                            time: "Pre-Ride: 3-4 hours before"
+                        },
+                        lunch: {
+                            meal: "Post-ride recovery: Pasta + lean beef + olive oil",
+                            carbs: 90,
+                            protein: 50,
+                            fats: 15,
+                            time: "Post-Ride: Within 20 min"
+                        },
+                        dinner: {
+                            meal: "Grilled chicken + sweet potatoes + roasted veggies",
+                            carbs: 70,
+                            protein: 45,
+                            fats: 20,
+                            time: "Evening: Recovery focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 90,
+                            protein: 5,
+                            fats: 2,
+                            time: "During ride: Every 20-30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + tart cherry juice + rice cakes",
+                            carbs: 90,
+                            protein: 40,
+                            fats: 5,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    race: {
+                        breakfast: {
+                            meal: "White rice + banana + honey + scrambled eggs",
+                            carbs: 150,
+                            protein: 25,
+                            fats: 10,
+                            time: "Pre-Race: 3-4 hours before"
+                        },
+                        lunch: {
+                            meal: "Post-race recovery: Pasta + chicken + olive oil",
+                            carbs: 120,
+                            protein: 60,
+                            fats: 20,
+                            time: "Post-Race: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Grilled salmon + mashed potatoes + steamed veggies",
+                            carbs: 90,
+                            protein: 50,
+                            fats: 25,
+                            time: "Evening: Recovery focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 90,
+                            protein: 5,
+                            fats: 2,
+                            time: "During race: Every 20-30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + tart cherry juice + banana",
+                            carbs: 100,
+                            protein: 50,
+                            fats: 5,
+                            time: "Immediately after race"
+                        }
+                    }
+                },
+                race: {
+                    recovery: {
+                        breakfast: {
+                            meal: "Smoothie bowl (banana, berries, protein powder, granola)",
+                            carbs: 50,
+                            protein: 25,
+                            fats: 10,
+                            time: "Morning: Light recovery"
+                        },
+                        lunch: {
+                            meal: "Lentil salad with feta, quinoa, and olive oil dressing",
+                            carbs: 55,
+                            protein: 30,
+                            fats: 15,
+                            time: "Midday: Plant proteins"
+                        },
+                        dinner: {
+                            meal: "Baked chicken + roasted root vegetables + greens",
+                            carbs: 40,
+                            protein: 35,
+                            fats: 20,
+                            time: "Evening: Moderate recovery"
+                        },
+                        intra: {
+                            meal: "Electrolyte drink only",
+                            carbs: 0,
+                            protein: 0,
+                            fats: 0,
+                            time: "During ride: Hydration only"
+                        },
+                        post: {
+                            meal: "Greek yogurt + honey + walnuts",
+                            carbs: 25,
+                            protein: 20,
+                            fats: 10,
+                            time: "Post-ride: Light snack"
+                        }
+                    },
+                    endurance: {
+                        breakfast: {
+                            meal: "Buckwheat pancakes + maple syrup + scrambled eggs",
+                            carbs: 80,
+                            protein: 25,
+                            fats: 15,
+                            time: "Pre-Ride: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Rice noodles + shrimp + veggies + peanut sauce",
+                            carbs: 70,
+                            protein: 35,
+                            fats: 15,
+                            time: "Post-Ride: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Grilled cod + roasted potatoes + asparagus",
+                            carbs: 50,
+                            protein: 35,
+                            fats: 15,
+                            time: "Evening: Omega-3 focus"
+                        },
+                        intra: {
+                            meal: "Homemade rice cakes + electrolyte drink",
+                            carbs: 60,
+                            protein: 5,
+                            fats: 3,
+                            time: "During ride: Every 45 min"
+                        },
+                        post: {
+                            meal: "Chocolate milk + banana + almond butter",
+                            carbs: 50,
+                            protein: 20,
+                            fats: 10,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    high: {
+                        breakfast: {
+                            meal: "Oatmeal + whey protein + banana + walnuts",
+                            carbs: 80,
+                            protein: 30,
+                            fats: 15,
+                            time: "Pre-Ride: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Whole wheat pasta + turkey bolognese + parmesan",
+                            carbs: 80,
+                            protein: 45,
+                            fats: 15,
+                            time: "Post-Ride: Within 20 min"
+                        },
+                        dinner: {
+                            meal: "Grilled steak + sweet potato mash + broccoli",
+                            carbs: 50,
+                            protein: 45,
+                            fats: 20,
+                            time: "Evening: Iron focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 75,
+                            protein: 5,
+                            fats: 2,
+                            time: "During ride: Every 30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + toast with honey",
+                            carbs: 70,
+                            protein: 30,
+                            fats: 5,
+                            time: "Immediately after ride"
+                        }
+                    },
+                    race: {
+                        breakfast: {
+                            meal: "White toast + jam + scrambled eggs + banana",
+                            carbs: 120,
+                            protein: 25,
+                            fats: 10,
+                            time: "Pre-Race: 3 hours before"
+                        },
+                        lunch: {
+                            meal: "Post-race recovery meal: Pasta + chicken + olive oil",
+                            carbs: 100,
+                            protein: 50,
+                            fats: 15,
+                            time: "Post-Race: Within 30 min"
+                        },
+                        dinner: {
+                            meal: "Salmon + jasmine rice + stir-fried veggies",
+                            carbs: 80,
+                            protein: 45,
+                            fats: 20,
+                            time: "Evening: Recovery focus"
+                        },
+                        intra: {
+                            meal: "Energy gels + sports drink + rice cakes",
+                            carbs: 90,
+                            protein: 5,
+                            fats: 2,
+                            time: "During race: Every 20-30 min"
+                        },
+                        post: {
+                            meal: "Recovery shake + tart cherry juice + banana",
+                            carbs: 80,
+                            protein: 40,
+                            fats: 5,
+                            time: "Immediately after race"
+                        }
+                    }
+                }
+            },
+            keto: {
+                // Similar structure with keto-adapted meals
+            },
+            plant: {
+                // Similar structure with plant-based meals
+            },
+            gluten: {
+                // Similar structure with gluten-free meals
+            }
+        };
+
+        function generateMealPlan() {
+            const distance = document.getElementById('distance').value;
+            const intensity = document.getElementById('intensity').value;
+            const diet = document.getElementById('diet').value;
+            const weight = parseInt(document.getElementById('weight').value);
+            
+            // For demo purposes, we'll use the standard diet plans
+            const plan = mealPlans.standard[distance][intensity];
+            
+            // Update breakfast
+            document.getElementById('breakfast-meal').textContent = plan.breakfast.meal;
+            document.getElementById('breakfast-carbs').textContent = plan.breakfast.carbs + 'g';
+            document.getElementById('breakfast-protein').textContent = plan.breakfast.protein + 'g';
+            document.getElementById('breakfast-fats').textContent = plan.breakfast.fats + 'g';
+            document.getElementById('breakfast-time').textContent = plan.breakfast.time;
+            
+            // Update lunch
+            document.getElementById('lunch-meal').textContent = plan.lunch.meal;
+            document.getElementById('lunch-carbs').textContent = plan.lunch.carbs + 'g';
+            document.getElementById('lunch-protein').textContent = plan.lunch.protein + 'g';
+            document.getElementById('lunch-fats').textContent = plan.lunch.fats + 'g';
+            document.getElementById('lunch-time').textContent = plan.lunch.time;
+            
+            // Update dinner
+            document.getElementById('dinner-meal').textContent = plan.dinner.meal;
+            document.getElementById('dinner-carbs').textContent = plan.dinner.carbs + 'g';
+            document.getElementById('dinner-protein').textContent = plan.dinner.protein + 'g';
+            document.getElementById('dinner-fats').textContent = plan.dinner.fats + 'g';
+            document.getElementById('dinner-time').textContent = plan.dinner.time;
+            
+            // Update intra-ride
+            document.getElementById('intra-meal').textContent = plan.intra.meal;
+            document.getElementById('intra-carbs').textContent = plan.intra.carbs + 'g';
+            document.getElementById('intra-protein').textContent = plan.intra.protein + 'g';
+            document.getElementById('intra-fats').textContent = plan.intra.fats + 'g';
+            document.getElementById('intra-time').textContent = plan.intra.time;
+            
+            // Update post-ride
+            document.getElementById('post-meal').textContent = plan.post.meal;
+            document.getElementById('post-carbs').textContent = plan.post.carbs + 'g';
+            document.getElementById('post-protein').textContent = plan.post.protein + 'g';
+            document.getElementById('post-fats').textContent = plan.post.fats + 'g';
+            document.getElementById('post-time').textContent = plan.post.time;
+            
+            // Calculate totals
+            const totalCarbs = plan.breakfast.carbs + plan.lunch.carbs + plan.dinner.carbs + plan.intra.carbs + plan.post.carbs;
+            const totalProtein = plan.breakfast.protein + plan.lunch.protein + plan.dinner.protein + plan.intra.protein + plan.post.protein;
+            const totalFats = plan.breakfast.fats + plan.lunch.fats + plan.dinner.fats + plan.intra.fats + plan.post.fats;
+            const totalCalories = (totalCarbs * 4) + (totalProtein * 4) + (totalFats * 9);
+            
+            document.getElementById('total-calories').textContent = totalCalories.toLocaleString() + ' kcal';
+            document.getElementById('total-carbs').textContent = totalCarbs + 'g';
+            document.getElementById('total-protein').textContent = totalProtein + 'g';
+            
+            // Show results
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
